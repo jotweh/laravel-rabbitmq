@@ -41,7 +41,7 @@ class RabbitMqJob extends Job {
 	/**
 	 * Create a new job instance.
 	 *
-	 * @param  \Illuminate\Container  $container
+	 * @param  \Illuminate\Container\Container  $container
 	 * @param  AMQPChannel  $channel
      * @param RabbitMqQueue $queue
 	 * @param  AMQPMessage  $message
@@ -113,10 +113,10 @@ class RabbitMqJob extends Job {
 	public function release($delay = 0)
 	{
         if ($delay == 0) {
-            $this->queue->_push2($this->data['job'], $this->data['data'], $this->attempts()+1);
+            $this->queue->_push($this->data['job'], $this->data['data'], $this->attempts()+1);
         }
         else{
-            $this->queue->_later2($delay, $this->data['job'], $this->data['data'], $this->attempts()+1);
+            $this->queue->_later($delay, $this->data['job'], $this->data['data'], $this->attempts()+1);
         }
         $this->delete();
 	}
@@ -144,7 +144,7 @@ class RabbitMqJob extends Job {
 	/**
 	 * Get the IoC container instance.
 	 *
-	 * @return \Illuminate\Container
+	 * @return \Illuminate\Container\Container
 	 */
 	public function getContainer()
 	{
@@ -171,4 +171,13 @@ class RabbitMqJob extends Job {
 		return $this->message;
 	}
 
+    /**
+     * Get the raw body string for the job.
+     *
+     * @return string
+     */
+    public function getRawBody()
+    {
+        return ''; // TODO
+    }
 }

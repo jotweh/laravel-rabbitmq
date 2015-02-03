@@ -75,7 +75,7 @@ class RabbitMqJob extends Job {
         }
         catch (\ErrorException $e)
         {
-            \Log::error("Queued job does not have a valid target: '" . serialize($this->data['job']) ."'");
+            \Log::error($e);
             $this->delete();
             return;
         }
@@ -86,7 +86,7 @@ class RabbitMqJob extends Job {
         }
         catch (\ReflectionException $e)
         {
-            \Log::error("Queued job does not have a valid target: '$class'");
+            \Log::error($e);
             $this->delete();
             return;
         }
